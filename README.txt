@@ -10,7 +10,7 @@ Update: 10.9.4 requires new AppleHDA patch for OS X Haswell/HD4600 HDMI audio. T
 HDMI audio for OS X 9 Series HD4600 systems with either: 1. HDMI audio edited dsdt or 2. the HDMI audio ssdt.  HD4600 HDMI audio is not native; AppleHDA.kext and AppleIntelFramebufferAzul.kext require edits.  Credit: PikeRAlpha for both fixes.
 
 Details
-[Guide]_HD4600-hdmi_audio_(dsdt_or_ssdt)_v2.1.pdf (tba)
+[Guide]_HD4600-hdmi_audio_(dsdt_or_ssdt)_v2.1.pdf, see https://github.com/toleda/audio_hdmi_8series
 [Guide]_OS_X_hdmi_audio-dsdt_v2, see https://github.com/toleda/audio_hdmi_guides
 [Guide]_OS_X_hdmi_audio-ssdt_v2, see https://github.com/toleda/audio_hdmi_guides
 
