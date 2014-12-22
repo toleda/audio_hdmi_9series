@@ -1,0 +1,25 @@
+# Maintained by: toleda for: github.com/toleda/audio_hdmi_9series
+# File: hsr3-dsdt-ami-9_series_lpc_v1.0
+#
+# Enables 9series LPC
+#
+# Verify dsdt/Device (LPCB) exists. 
+#
+# Task:
+# 1. Insert 8series LPC device_id into 9series/dsdt/LPCB
+#
+into device name_adr 0x001F0000 insert
+begin
+	Method (_DSM, 4, NotSerialized)\n
+	{\n
+	    If (LEqual (Arg2, Zero)) { Return (Buffer() { 0x03 } ) }\n
+	    Return (Package()\n
+	    {\n
+                "compatible", Buffer() { "pci8086,8c4b" },\n
+	    })\n
+	}\n
+end;
+into definitionblock code_regex . insert
+begin Store ("hsr3-dsdt-ami-9_series_lpc_v1.0 dsdt edits, github.com/toleda", Debug) end
+
+
