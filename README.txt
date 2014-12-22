@@ -1,8 +1,8 @@
 audio_hdmi_9series
 ============
 OS X Haswell/9 Series/Socket 1150 - HD4600/AMD/Nvidia HDMI Audio
-With or Without DSDT Edits
 OS X Haswell/9 Series/Socket 1150 - 9series LPC
+With or Without DSDT Edits
 
 Update: v2.1 - 12/22/2014  9series LPC
 Update: v2 - 8/15/2014
@@ -20,6 +20,8 @@ OS X 9 Series HD4600/AMD/Nvidia HDMI Audio (Audio ID: 1 = patch-A1 = filename-1,
 
 9series LPC
 dsdt/LPC edit: MaciASL/Patch/AMI-Enable_LPC-9series
+1. Configure MaciASL/Preferences/Sources/+ with URL:  (copy/paste URL below)
+2. https://raw.github.com/toleda/audio_hdmi_9series/master
 ssdt/LPC: 9series_ssdt/ssdt-ami-9series_lpc
 
 Problem Reporting
