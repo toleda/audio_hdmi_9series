@@ -4,6 +4,7 @@ OS X Haswell/9 Series/Socket 1150 - HD4600/AMD/Nvidia HDMI Audio
 OS X Haswell/9 Series/Socket 1150 - 9series LPC
 With or Without DSDT Edits
 
+Update: v2.2 - 2/3/2015  9series ssdt update; do not use DropOEM
 Update: v2.1 - 12/22/2014  9series LPC
 Update: v2 - 8/15/2014
 
