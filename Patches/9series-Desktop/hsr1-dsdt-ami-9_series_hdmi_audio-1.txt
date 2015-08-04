@@ -2,8 +2,9 @@
 # File: hsr1-dsdt-ami-9series_hdmi_audio-1_v3.0
 # Credit: PikeRAlpha
 
-# Desktop AMD/Nvidia/HD5K HDMI audio dsdt edits (Audio ID: 1)
-# Enables HD5K/AMD and HD5K/Nvidia AirPlay Mirroring.
+# Desktop AMD/Nvidia/HD4600 HDMI audio dsdt edits (Audio ID: 1)
+# Supports HD4400, HD4600, HD5000, HD5100, HD5200 and Iris Pro Graphics
+# Enables HD4600/AMD and HD4600/Nvidia AirPlay Mirroring.
 # Azul/Framebuffer: 0D22 0003 iMac14 - FB edits required for HDMI audio
 #
 # Verify dsdt/Device (PEG0) exists. 
@@ -17,8 +18,8 @@
 # 2. Rename GFX0 devices to IGPU - Verify IOReg/GFXO@2
 # 3. Rename device P0P2 to device PEGP - Verify IOReg/P0P2@1
 # 4. Insert device GFX0 and device HDAU into device PEGP (Nvidia/AMD HDMI audio)
-# 5. Insert HDMI audio injection into device IGPU (HD5K HDMI audio - Part 1/2)
-# 6. Rename device B0D3 to device HDAU, add injection (HD5K HDMI audio - Part 2/2)
+# 5. Insert HDMI audio injection into device IGPU (HD4600 HDMI audio - Part 1/2)
+# 6. Rename device B0D3 to device HDAU, add injection (HD4600 HDMI audio - Part 2/2)
 # 7. Insert audio injection into device HDEF (HDEF audio)
 #
 # Run this patch once for any dsdt.
@@ -59,6 +60,8 @@ Device (PEGP)\n
                 "@1,connector-type", Buffer() { 0x00, 0x08, 0x00, 0x00 },\n
                 "@2,connector-type", Buffer() { 0x00, 0x08, 0x00, 0x00 },\n
                 "@3,connector-type", Buffer() { 0x00, 0x08, 0x00, 0x00 },\n
+                "@4,connector-type", Buffer() { 0x00, 0x08, 0x00, 0x00 },\n
+                "@5,connector-type", Buffer() { 0x00, 0x08, 0x00, 0x00 },\n
                 "hda-gfx", Buffer() { "onboard-2" },\n
 	    })\n
     }\n
@@ -77,7 +80,7 @@ Device (HDAU)\n
     }\n
 }\n
 end;
-# 5. Add device IGPU and inject Azul framebuffer(HD5K HDMI audio - Part 1/2)
+# 5. Add device IGPU and inject Azul framebuffer(HD4600 HDMI audio - Part 1/2)
 #into device name_adr 0x00020000 set_label begin IGPU end;
 into device name_adr 0x00020000 insert
 begin
@@ -91,7 +94,8 @@ begin
 	    })\n
 	}\n
 end;
-# 6. Rename device B0D3 to device HDAU, add injection (HD5K HDMI audio - Part 2/2)
+into device name_adr 0x00020001 set_label begin GFX0 end;
+# 6. Rename device B0D3 to device HDAU, add injection (HD4600 HDMI audio - Part 2/2)
 #into device label B0D3 set_label begin HDAU end;
 #into_all all code_regex B0D3 replaceall_matched begin HDAU end;
 #into scope label _SB.PCI0.B0D3 set_label begin _SB.PCI0.HDAU end;
@@ -120,6 +124,8 @@ Device (B0D3)\n
 end;
 # 7. Insert audio injection into device HDEF (HDEF audio)
 into method label _DSM parent_adr 0x001B0000 remove_entry;
+into scope label _SB.PCI0.HDEF remove_entry;
+
 into device name_adr 0x001B0000 insert
 begin
     Method (_DSM, 4, NotSerialized)\n
@@ -133,6 +139,6 @@ begin
     }\n
 end;
 into definitionblock code_regex . insert
-begin Store ("hsr1-dsdt-ami-9series_hdmi_audio-1_v1.0 dsdt edits, github.com/toleda", Debug) end
+begin Store ("hsr1-dsdt-ami-9series_hdmi_audio-1_v3.0 dsdt edits, github.com/toleda", Debug) end
 
 
