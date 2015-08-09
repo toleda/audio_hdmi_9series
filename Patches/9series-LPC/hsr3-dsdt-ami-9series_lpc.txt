@@ -1,5 +1,5 @@
 # Maintained by: toleda for: github.com/toleda/audio_hdmi_9series
-# File: hsr3-dsdt-ami-9_series_lpc_v1.0
+# File: hsr3-dsdt-ami-9_series_lpc_v1.1
 #
 # Enables 9series LPC
 #
@@ -15,11 +15,11 @@ begin
 	    If (LEqual (Arg2, Zero)) { Return (Buffer() { 0x03 } ) }\n
 	    Return (Package()\n
 	    {\n
-                "compatible", Buffer() { "pci8086,8c4b" },\n
+                "compatible", Buffer() { "pci8086,8c44" },\n
 	    })\n
 	}\n
 end;
 into definitionblock code_regex . insert
-begin Store ("hsr3-dsdt-ami-9_series_lpc_v1.0 dsdt edits, github.com/toleda", Debug) end
+begin Store ("hsr3-dsdt-ami-9_series_lpc_v1.1 dsdt edits, github.com/toleda", Debug) end
 
 

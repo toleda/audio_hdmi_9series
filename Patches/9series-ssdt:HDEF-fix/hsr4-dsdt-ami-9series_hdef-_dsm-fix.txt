@@ -1,0 +1,12 @@
+# Maintained by: toleda for: github.com/toleda/audio_hdmi_9series
+# File: hsr4-dsdt-ami-9series_hdef-_dsm-fix_v3.0
+# 
+# Removes dsdt/Scope (_SB.PCI0.HDEF)/Method (_DSM,...
+# Allows ssdt/HDEF injection to work on 9series motherboards 
+# 
+# Tasks:
+# 1. Remove _SB.PCI0.HDEF device - if present
+into method label _DSM parent_adr 0x001B0000 remove_entry;
+into scope label _SB.PCI0.HDEF remove_entry;
+into definitionblock code_regex . insert
+begin Store ("hsr4-dsdt-ami-9series_hdef-_dsm-fix_v3.0 dsdt edits, github.com/toleda", Debug) end

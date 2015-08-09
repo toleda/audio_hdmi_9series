@@ -1,5 +1,5 @@
 # Maintained by: toleda for: github.com/toleda/audio_hdmi_9series
-# File: hsr1-dsdt-ami-9series_hdmi_audio-1_v3.1
+# File: hsr1-dsdt-ami-9series_hdmi_audio-2_v3.1
 # Credit: PikeRAlpha, RehabMan
 
 # Desktop AMD/Nvidia/HD4600 HDMI audio dsdt edits (Audio ID: 1)
@@ -115,12 +115,12 @@ begin
 	    If (LEqual (Arg2, Zero)) { Return (Buffer() { 0x03 } ) }\n
 	    Return (Package()\n
 	    {\n
-                "layout-id", Buffer() { 1, 0, 0, 0, },\n
+                "layout-id", Buffer() { 2, 0, 0, 0, },\n
                 "PinConfigurations", Buffer(Zero) {},\n
 	    })\n
     }\n
 end;
 into definitionblock code_regex . insert
-begin Store ("hsr1-dsdt-ami-9series_hdmi_audio-1_v3.1 dsdt edits, github.com/toleda", Debug) end
+begin Store ("hsr1-dsdt-ami-9series_hdmi_audio-2_v3.1 dsdt edits, github.com/toleda", Debug) end
 
 
