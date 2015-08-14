@@ -1,0 +1,85 @@
+# Maintained by: toleda for: github.com/toleda/audio_hdmi_9series
+# File: bdw4-dsdt-ami-9series-HD6000+_hdmi_audio-1_v1.0
+# Credit: PikeRAlpha, RehabMan
+
+# NUC/BRIX HD6000+ HDMI audio dsdt edits (Audio ID: 1)
+# Supports HD6000+ graphics and HDMI audio
+# BDW/Framebuffer: 0x04002616; DP native, FB edits required for HDMI audio
+#
+# Verify dsdt/Device (IOReg/PEG0@1) exists. 
+#
+# NOTE: Run this patch file only once on a dsdt.  
+#
+# Tasks:
+# 1. Disable device GFX0 and add device IGPU, add injection (HD6000+ HDMI audio - Part 1/2)
+# 2. Disable device B0D3 and add device HDAU, add injection (HD6000+ HDMI audio - Part 2/2)
+# 3. Insert audio injection into device HDEF (HDEF audio)
+#
+# Run this patch once for any dsdt.
+#
+# 1. Disable device GFX0 and add IGPU with Azul injection (HD6000+ HDMI audio - Part 1/2)
+into method label _DSM parent_adr 0x00020000 remove_entry;
+into device name_adr 0x00020000 set_label begin IGPU end;
+into device name_adr 0x00020000 insert
+begin
+	Method (_DSM, 4, NotSerialized)\n
+	{\n
+	    If (LEqual (Arg2, Zero)) { Return (Buffer() { 0x03 } ) }\n
+	    Return (Package()\n
+	    {\n
+	        "AAPL,ig-platform-id", Buffer() { 0x04, 0x00, 0x26, 0x16 },\n
+                "hda-gfx", Buffer() { "onboard-1" },\n
+	    })\n
+	}\n
+end;
+into device label PCI0 insert
+begin
+    Device (GFX0)\n
+    {\n
+        Name (_ADR, 0x00020001)\n
+    }\n
+end;
+
+# 2. Disable device B0D3 and add HDAU with injection (HD6000+ HDMI audio - Part 2/2)
+into method label _DSM parent_adr 0x00030000 remove_entry;
+into device name_adr 0x00030000 set_label begin HDAU end;
+into device name_adr 0x00030000 insert
+begin
+	Method (_DSM, 4, NotSerialized)\n
+	{\n
+	    If (LEqual (Arg2, Zero)) { Return (Buffer() { 0x03 } ) }\n
+	    Return (Package()\n
+	    {\n
+                "layout-id", Buffer() { 1, 0, 0, 0, },\n
+                "hda-gfx", Buffer() { "onboard-1" },\n
+	    })\n
+	}\n
+end;
+into device label PCI0 insert
+begin
+    Device (B0D3)\n
+    {\n
+        Name (_ADR, 0x00030001)\n
+    }\n
+end;
+
+# 3. Insert audio injection into device HDEF (HDEF audio)
+into method label _DSM parent_adr 0x001B0000 remove_entry;
+into scope label _SB.PCI0.HDEF remove_entry;
+
+into device name_adr 0x001B0000 insert
+begin
+    Method (_DSM, 4, NotSerialized)\n
+    {\n
+	    If (LEqual (Arg2, Zero)) { Return (Buffer() { 0x03 } ) }\n
+	    Return (Package()\n
+	    {\n
+                "layout-id", Buffer() { 1, 0, 0, 0, },\n
+                "PinConfigurations", Buffer(Zero) {},\n
+	    })\n
+    }\n
+end;
+into definitionblock code_regex . insert
+begin Store ("bdw4-dsdt-ami-9series-HD6000+_hdmi_audio-1_v1.0 dsdt edits, github.com/toleda", Debug) end
+
+

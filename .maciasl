@@ -3,3 +3,5 @@ AMI-Enable_LPC-9series	DSDT	Patches/9series-LPC/hsr3-dsdt-ami-9series_lpc.txt
 AMI-HD4600-AMD-Nvidia-A1	DSDT	Patches/9series-Desktop/hsr1-dsdt-ami-9series_hdmi_audio-1.txt
 AMI-HD4600-AMD-Nvidia-A2	DSDT	Patches/9series-Desktop/hsr2-dsdt-ami-9series_hdmi_audio-2.txt
 AMI-9series-ssdt/HDEF-fix	DSDT	Patches/9series-ssdt/HDEF-fix/hsr4-dsdt-ami-9series_hdef-_dsm-fix.txt
+AMI-HD5500-NUC-BRIX	DSDT	Patches/9series-NUC/BRIX/bdw3-dsdt-ami-9series-hd5500_hdmi_audio-1.txt
+AMI-HD6000+-NUC-BRIX	DSDT	Patches/9series-NUC/BRIX/bdw4-dsdt-ami-9series-hd6000_hdmi_audio-1.txt
