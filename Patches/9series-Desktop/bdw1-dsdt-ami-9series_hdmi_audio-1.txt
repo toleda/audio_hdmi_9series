@@ -1,0 +1,123 @@
+# Maintained by: toleda for: github.com/toleda/audio_hdmi_9series
+# File: bdw1-dsdt-ami-9series_hdmi_audio-1_v1.0
+# Credit: PikeRAlpha, RehabMan
+
+# Desktop HD6000+ HDMI audio dsdt edits (Audio ID: 1)
+# Supports HD6000+ graphics and HDMI audio
+# BDW/Framebuffer: 0x04002616; DP native, FB edits required for HDMI audio
+#
+# Verify dsdt/Device (IOReg/PEG0@1) exists. 
+#
+# NOTE: Run this patch file only once on a dsdt.  
+#
+# Tasks:
+# 1. Insert device PEGP and device HDAU into device PEG0 (Nvidia/AMD HDMI audio)
+# 2. Disable device GFX0 and add device IGPU, add injection (HD4600 HDMI audio - Part 1/2)
+# 3. Disable device B0D3 and add device HDAU, add injection (HD4600 HDMI audio - Part 2/2)
+# 4. Insert audio injection into device HDEF (HDEF audio)
+#
+# 1.  Insert device PEGP and device HDAU (Nvidia/AMD HDMI audio)
+# into_all all code_regex PEG0.PEGP replaceall_matched begin PEG0.GFX0 end;
+into method label _DSM parent_adr 0x00010000 remove_entry;
+into device label PEGP remove_entry;
+into device label PEG0 insert
+begin
+Device (PEGP)\n
+{\n
+    Name (_ADR, Zero)\n
+    Name (_SUN, One)\n
+    Method (_DSM, 4, NotSerialized)\n
+    {\n
+	    If (LEqual (Arg2, Zero)) { Return (Buffer() { 0x03 } ) }\n
+	    Return (Package()\n
+            {\n
+                "@0,connector-type", Buffer() { 0x00, 0x08, 0x00, 0x00 },\n
+                "@1,connector-type", Buffer() { 0x00, 0x08, 0x00, 0x00 },\n
+                "@2,connector-type", Buffer() { 0x00, 0x08, 0x00, 0x00 },\n
+                "@3,connector-type", Buffer() { 0x00, 0x08, 0x00, 0x00 },\n
+                "@4,connector-type", Buffer() { 0x00, 0x08, 0x00, 0x00 },\n
+                "@5,connector-type", Buffer() { 0x00, 0x08, 0x00, 0x00 },\n
+                "hda-gfx", Buffer() { "onboard-2" },\n
+	    })\n
+    }\n
+}\n
+Device (HDAU)\n
+{\n
+    Name (_ADR, One)\n
+    Method (_DSM, 4, NotSerialized)\n
+    {\n
+	    If (LEqual (Arg2, Zero)) { Return (Buffer() { 0x03 } ) }\n
+	    Return (Package()\n
+            {\n
+		"layout-id", Buffer() { 1, 0, 0, 0, },\n
+                "hda-gfx", Buffer() { "onboard-2" },\n
+	    })\n
+    }\n
+}\n
+end;
+# 2. Disable device GFX0 and add IGPU with Azul injection (HD4600 HDMI audio - Part 1/2)
+into method label _DSM parent_adr 0x00020000 remove_entry;
+into device name_adr 0x00020000 set_label begin IGPU end;
+into device name_adr 0x00020000 insert
+begin
+	Method (_DSM, 4, NotSerialized)\n
+	{\n
+	    If (LEqual (Arg2, Zero)) { Return (Buffer() { 0x03 } ) }\n
+	    Return (Package()\n
+	    {\n
+	        "AAPL,ig-platform-id", Buffer() { 0x04, 0x00, 0x26, 0x16 },\n
+                "hda-gfx", Buffer() { "onboard-1" },\n
+	    })\n
+	}\n
+end;
+into device label PCI0 insert
+begin
+    Device (GFX0)\n
+    {\n
+        Name (_ADR, 0x00020001)\n
+    }\n
+end;
+
+# 3. Disable device B0D3 and add HDAU with injection (HD4600 HDMI audio - Part 2/2)
+into method label _DSM parent_adr 0x00030000 remove_entry;
+into device name_adr 0x00030000 set_label begin HDAU end;
+into device name_adr 0x00030000 insert
+begin
+	Method (_DSM, 4, NotSerialized)\n
+	{\n
+	    If (LEqual (Arg2, Zero)) { Return (Buffer() { 0x03 } ) }\n
+	    Return (Package()\n
+	    {\n
+                "layout-id", Buffer() { 1, 0, 0, 0, },\n
+                "hda-gfx", Buffer() { "onboard-1" },\n
+	    })\n
+	}\n
+end;
+into device label PCI0 insert
+begin
+    Device (B0D3)\n
+    {\n
+        Name (_ADR, 0x00030001)\n
+    }\n
+end;
+
+# 4. Insert audio injection into device HDEF (HDEF audio)
+into method label _DSM parent_adr 0x001B0000 remove_entry;
+into scope label _SB.PCI0.HDEF remove_entry;
+
+into device name_adr 0x001B0000 insert
+begin
+    Method (_DSM, 4, NotSerialized)\n
+    {\n
+	    If (LEqual (Arg2, Zero)) { Return (Buffer() { 0x03 } ) }\n
+	    Return (Package()\n
+	    {\n
+                "layout-id", Buffer() { 1, 0, 0, 0, },\n
+                "PinConfigurations", Buffer(Zero) {},\n
+	    })\n
+    }\n
+end;
+into definitionblock code_regex . insert
+begin Store ("bdw1-dsdt-ami-9series_hdmi_audio-1_v1.0 dsdt edits, github.com/toleda", Debug) end
+
+
