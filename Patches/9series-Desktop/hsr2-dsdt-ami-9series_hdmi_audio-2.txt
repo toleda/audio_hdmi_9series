@@ -1,8 +1,8 @@
 # Maintained by: toleda for: github.com/toleda/audio_hdmi_9series
-# File: hsr1-dsdt-ami-9series_hdmi_audio-2_v3.1
+# File: hsr2-dsdt-ami-9series_hdmi_audio-2_v3.1
 # Credit: PikeRAlpha, RehabMan
 
-# Desktop AMD/Nvidia/HD4600 HDMI audio dsdt edits (Audio ID: 1)
+# Desktop AMD/Nvidia/HD4600 HDMI audio dsdt edits (Audio ID: 2)
 # Supports HD4400, HD4600, HD5000, HD5100, HD5200 and Iris Pro Graphics
 # Enables HD4600/AMD and HD4600/Nvidia AirPlay Mirroring.
 # Azul/Framebuffer: 0D22 0003 iMac14 - FB edits required for HDMI audio
@@ -25,7 +25,7 @@ into method label _DSM parent_adr 0x00010000 remove_entry;
 into device label PEGP remove_entry;
 into device label PEG0 insert
 begin
-Device (PEGP)\n
+Device (GFX0)\n
 {\n
     Name (_ADR, Zero)\n
     Name (_SUN, One)\n
@@ -57,7 +57,12 @@ Device (HDAU)\n
 	    })\n
     }\n
 }\n
+Device (PEGP)\n
+{\n
+    Name (_ADR, 0x0F)\n
+}\n
 end;
+
 # 2. Disable device GFX0 and add IGPU with Azul injection (HD4600 HDMI audio - Part 1/2)
 into method label _DSM parent_adr 0x00020000 remove_entry;
 into device name_adr 0x00020000 set_label begin IGPU end;
@@ -121,6 +126,4 @@ begin
     }\n
 end;
 into definitionblock code_regex . insert
-begin Store ("hsr1-dsdt-ami-9series_hdmi_audio-2_v3.1 dsdt edits, github.com/toleda", Debug) end
-
-
+begin Store ("hsr2-dsdt-ami-9series_hdmi_audio-2_v3.1 dsdt edits, github.com/toleda", Debug) end
