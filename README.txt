@@ -4,11 +4,12 @@ OS X Haswell/9 Series/Socket 1150 - HD4600/AMD/Nvidia HDMI Audio
 OS X Haswell/9 Series/Socket 1150 - 9series LPC
 With or Without DSDT Edits
 
-v3: 8/10/2015 - New ssdt method/credit RehabMan, initial 10.11 support, native 
+v4: 12/2/16 - Clover ssdt rename, cloverHDMI support
+v3: 8/10/15 - New ssdt method/credit RehabMan, initial 10.11 support, native 
     CPU/GPU PM and Nvidia Maxwell support
-v2.2: 2/3/2015  9series ssdt update; do not use DropOEM
-v2.1: 12/22/2014  9series LPC
-v2: 8/15/2014
+v2.2: 2/3/15  9series ssdt update; do not use DropOEM
+v2.1: 12/22/214  9series LPC
+v2: 8/15/14
 
 Update: 10.9.4 requires new AppleHDA patch for OS X Haswell/HD4600 HDMI audio. The v2 patch supports 10.9 and newer. Credit TimeWalker75a
 
